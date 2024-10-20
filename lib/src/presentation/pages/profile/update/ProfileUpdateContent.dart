@@ -9,7 +9,6 @@ import 'package:ecommerce_flutter/src/presentation/widgets/DefaultTextField.dart
 import 'package:flutter/material.dart';
 
 class ProfileUpdateContent extends StatelessWidget {
-  
   ProfileUpdateBloc? bloc;
   ProfileUpdateState state;
   User? user;
@@ -29,16 +28,11 @@ class ProfileUpdateContent extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _imageProfile(context),
-                  _cardProfileInfo(context)
-                ],
+                children: [_imageProfile(context), _cardProfileInfo(context)],
               ),
             ),
           ),
-          DefaultIconBack(
-            left: 15, top: 50
-          )
+          DefaultIconBack(left: 15, top: 50)
         ],
       ),
     );
@@ -49,12 +43,11 @@ class ProfileUpdateContent extends StatelessWidget {
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.44,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 255, 255, 0.7),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(35),
-          topRight: Radius.circular(35),
-        )
-      ),
+          color: Color.fromRGBO(255, 255, 255, 0.7),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(35),
+            topRight: Radius.circular(35),
+          )),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
@@ -68,7 +61,7 @@ class ProfileUpdateContent extends StatelessWidget {
         ),
       ),
     );
-  } 
+  }
 
   Widget _fabSubmit() {
     return Container(
@@ -93,97 +86,102 @@ class ProfileUpdateContent extends StatelessWidget {
       margin: EdgeInsets.only(top: 25, left: 35, bottom: 10),
       child: Text(
         'ACTUALIZAR INFORMACION',
-        style: TextStyle(
-          fontSize: 17
-        ),
+        style: TextStyle(fontSize: 17),
       ),
     );
   }
 
   Widget _textFieldName() {
     return Container(
-      margin: EdgeInsets.only(left: 25, right: 25),
-      child: DefaultTextField(
-        label: 'Nombre',
-        icon: Icons.person,
-        color: Colors.black,
-        initialValue: user?.name ?? '',
-        onChanged: (text) {
-          bloc?.add(ProfileUpdateNameChanged(name: BlocFormItem(value: text)));
-        },
-        validator: (value) {
-          return state.name.error;
-        },
-      )
-    );
-  } 
+        margin: EdgeInsets.only(left: 25, right: 25),
+        child: DefaultTextField(
+          label: 'Nombre',
+          icon: Icons.person,
+          color: Colors.black,
+          initialValue: user?.name ?? '',
+          onChanged: (text) {
+            bloc?.add(
+                ProfileUpdateNameChanged(name: BlocFormItem(value: text)));
+          },
+          validator: (value) {
+            return state.name.error;
+          },
+        ));
+  }
 
   Widget _textFieldLastname() {
     return Container(
-      margin: EdgeInsets.only(left: 25, right: 25),
-      child: DefaultTextField(
-        label: 'Apellido',
-        color: Colors.black,
-        icon: Icons.person_outline,
-        initialValue: user?.lastname ?? '',
-        onChanged: (text) {
-          bloc?.add(ProfileUpdateLastnameChanged(lastname: BlocFormItem(value: text)));
-        },
-        validator: (value) {
-          return state.lastname.error;
-        },
-      )
-    );
-  } 
+        margin: EdgeInsets.only(left: 25, right: 25),
+        child: DefaultTextField(
+          label: 'Apellido',
+          color: Colors.black,
+          icon: Icons.person_outline,
+          initialValue: user?.lastname ?? '',
+          onChanged: (text) {
+            bloc?.add(ProfileUpdateLastnameChanged(
+                lastname: BlocFormItem(value: text)));
+          },
+          validator: (value) {
+            return state.lastname.error;
+          },
+        ));
+  }
 
   Widget _textFieldPhone() {
     return Container(
-      margin: EdgeInsets.only(left: 25, right: 25),
-      child: DefaultTextField(
-        label: 'Telefono',
-        icon: Icons.phone,
-        color: Colors.black,
-        initialValue: user?.phone ?? '',
-        onChanged: (text) {
-          bloc?.add(ProfileUpdatePhoneChanged(phone: BlocFormItem(value: text)));
-        },
-        validator: (value) {
-          return state.phone.error;
-        },
-      )
-    );
-  } 
+        margin: EdgeInsets.only(left: 25, right: 25),
+        child: DefaultTextField(
+          label: 'Telefono',
+          icon: Icons.phone,
+          color: Colors.black,
+          initialValue: user?.phone ?? '',
+          onChanged: (text) {
+            bloc?.add(
+                ProfileUpdatePhoneChanged(phone: BlocFormItem(value: text)));
+          },
+          validator: (value) {
+            return state.phone.error;
+          },
+        ));
+  }
 
   Widget _imageProfile(BuildContext context) {
+    const String defaultImageUrl =
+        'https://firebasestorage.googleapis.com/v0/b/ecommerce-e96a2.appspot.com/o/icon.jpg?alt=media&token=fdb38f7c-5d68-4f5e-9b9c-58d49604a670';
+    final String imageUrl =
+        (user != null && user!.image != null && user!.image!.isNotEmpty)
+            ? user!.image!
+            : defaultImageUrl;
+
     return GestureDetector(
       onTap: () {
-        SelectOptionImageDialog(
-          context, 
-          () { bloc?.add(ProfileUpdatePickImage()); }, 
-          () { bloc?.add(ProfileUpdateTakePhoto()); }
-        );
+        SelectOptionImageDialog(context, () {
+          bloc?.add(ProfileUpdatePickImage());
+        }, () {
+          bloc?.add(ProfileUpdateTakePhoto());
+        });
       },
       child: Container(
         margin: EdgeInsets.only(top: 100),
         width: 150,
         child: AspectRatio(
-          aspectRatio: 1/1,
+          aspectRatio: 1 / 1,
           child: ClipOval(
-            child: state.image != null 
-            ? Image.file(
-              state.image!,
-              fit: BoxFit.cover,
-            ) 
-            : FadeInImage.assetNetwork(
-              placeholder: 'assets/img/user_image.png', 
-              image: user!.image!,
-              fit: BoxFit.cover,
-              fadeInDuration: Duration(seconds: 1),
-            ),
+            child: state.image != null
+                ? Image.file(
+                    state.image!,
+                    fit: BoxFit.cover,
+                  )
+                : FadeInImage.assetNetwork(
+                    placeholder: 'assets/img/user_image.png',
+                    image: imageUrl,
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(seconds: 1),
+                  ),
           ),
         ),
       ),
-    ); 
+    );
   }
 
   Widget _imageBackground(BuildContext context) {

@@ -2,7 +2,6 @@ import 'package:ecommerce_flutter/src/domain/models/User.dart';
 import 'package:flutter/material.dart';
 
 class ProfileInfoContent extends StatelessWidget {
-
   User? user;
 
   ProfileInfoContent(this.user);
@@ -14,11 +13,7 @@ class ProfileInfoContent extends StatelessWidget {
       children: [
         _imageBackground(context),
         Column(
-          children: [
-            _imageProfile(),
-            Spacer(),
-            _cardProfileInfo(context)
-          ],
+          children: [_imageProfile(), Spacer(), _cardProfileInfo(context)],
         )
       ],
     );
@@ -29,12 +24,11 @@ class ProfileInfoContent extends StatelessWidget {
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.35,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 255, 255, 0.7),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(35),
-          topRight: Radius.circular(35),
-        )
-      ),
+          color: Color.fromRGBO(255, 255, 255, 0.7),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(35),
+            topRight: Radius.circular(35),
+          )),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
@@ -60,7 +54,8 @@ class ProfileInfoContent extends StatelessWidget {
               child: FloatingActionButton(
                 backgroundColor: Colors.black,
                 onPressed: () {
-                  Navigator.pushNamed(context, 'profile/update', arguments: user);
+                  Navigator.pushNamed(context, 'profile/update',
+                      arguments: user);
                 },
                 child: Icon(
                   Icons.edit,
@@ -75,23 +70,30 @@ class ProfileInfoContent extends StatelessWidget {
   }
 
   Widget _imageProfile() {
+    const String defaultImageUrl =
+        'https://firebasestorage.googleapis.com/v0/b/ecommerce-e96a2.appspot.com/o/icon.jpg?alt=media&token=fdb38f7c-5d68-4f5e-9b9c-58d49604a670';
+    final String imageUrl =
+        (user != null && user!.image != null && user!.image!.isNotEmpty)
+            ? user!.image!
+            : defaultImageUrl;
+
     return Container(
       margin: EdgeInsets.only(top: 100),
       width: 150,
       child: AspectRatio(
-        aspectRatio: 1/1,
+        aspectRatio: 1 / 1,
         child: ClipOval(
-          child: user != null 
-          ? FadeInImage.assetNetwork(
-            placeholder: 'assets/img/user_image.png', 
-            image: user!.image!,
-            fit: BoxFit.cover,
-            fadeInDuration: Duration(seconds: 1),
-          )
-          : Container(),
+          child: user != null
+              ? FadeInImage.assetNetwork(
+                  placeholder: 'assets/img/user_image.png',
+                  image: imageUrl,
+                  fit: BoxFit.cover,
+                  fadeInDuration: Duration(seconds: 1),
+                )
+              : Container(),
         ),
       ),
-    ); 
+    );
   }
 
   Widget _imageBackground(BuildContext context) {
